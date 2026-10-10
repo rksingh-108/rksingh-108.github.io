@@ -178,59 +178,123 @@ TRYLO is an **end-to-end ride-booking system** designed around real-time locatio
 
 ---
 
-## 🤖 2. WorkPilot AI
+## 🗄️ 2. DataForge AI
 
-### AI Workplace Agent
+### Secure AI Data Intelligence Platform
 
-WorkPilot AI is designed to go beyond simply answering questions. It combines **company knowledge, tasks, meetings and workflows** to provide actionable assistance and execute structured actions with human approval.
+🔗 **Repository:** [github.com/rksingh-108/dataforge-ai](https://github.com/rksingh-108/dataforge-ai)
+
+DataForge AI lets an organization **connect approved business databases and upload internal documents**, then ask questions in plain English. A tool-using AI analyst decides whether each question needs **safe read-only SQL** or **document retrieval**, and every answer cites its sources — under real access control and a permanent audit trail.
 
 ### ✨ Highlights
 
-- 🧠 AI agent for tasks, emails, calendars & meetings
-- 📅 Personalized daily planning
-- 🤝 Meeting preparation
-- 🔗 Multi-step agentic workflows
-- 🛠️ Agentic tool calling
-- 🔎 RAG-powered company knowledge search
-- 🗄️ PostgreSQL + pgvector
-- 🔐 Authentication & RBAC
-- 👤 Human-in-the-loop approval
-- 🧾 Full audit trail
+| Feature | What it does |
+|---|---|
+| 🔌 Data Sources | Read-only **PostgreSQL** & **MySQL** connections, credentials encrypted at rest |
+| 📄 Document Ingest | PDF / DOCX / TXT extraction, chunking & embeddings |
+| 🔎 RAG Retrieval | Vector search over **PostgreSQL + pgvector** |
+| 🤖 AI Analyst | Agent routes each question to SQL or documents |
+| 🧾 Citations | Answers point back to the rows and documents they used |
+| 🛡️ Safe SQL | Statements **parsed and validated as an AST** — never fragile regex |
+| 🔐 Access Control | Organization tenancy & role-based access |
+| 📜 Audit Log | Append-only record of every AI execution |
+| 🔒 Security | Prompt-injection defence, outbound host guard, internal service auth |
+| 🐳 Deployment | Full stack orchestratable with Docker Compose |
 
-### 🧩 Agent Flow
+### 🧩 Architecture
 
 ```text
-👤 User
+👤 Analyst
    ↓
-🤖 AI Agent
+🎨 Next.js Web App
    ↓
-🛠️ Tool Calling
+⚙️ Django + DRF API     ← tenancy · RBAC · audit
    ↓
-🔎 RAG / pgvector
+🤖 Flask AI Service     ← agents · tools · RAG · SQL
    ↓
-👤 Human Approval
+🗄️ PostgreSQL + pgvector
    ↓
-⚡ Action
+🛡️ Read-Only SQL   │   📄 Document Retrieval
 ```
 
 ### 🧰 Stack
 
-`Next.js` `TypeScript` `Fastify` `PostgreSQL` `pgvector` `Groq` `RAG` `JWT/RBAC` `Supabase` `Vercel` `Render`
+`Next.js` `React` `TypeScript` `Tailwind CSS` `Django` `Django REST Framework` `Flask` `PostgreSQL` `pgvector` `Redis` `Celery` `Docker`
 
 ### ☁️ Deployment
 
 ```text
-🎨 Frontend  → Vercel
-⚙️ Backend   → Render
-🗄️ Database  → Supabase PostgreSQL + pgvector
-🧠 LLM       → Groq
+🎨 Web        → Next.js analyst console
+⚙️ API        → Django + DRF modular monolith
+🤖 AI Service → Flask · agents, tools, RAG, SQL
+🗄️ Data       → PostgreSQL + pgvector · Redis · Celery
+🧠 LLM        → provider-agnostic (OpenAI-compatible · Anthropic · Azure OpenAI · Ollama)
 ```
 
-> 🏆 **Focus:** Turning an AI chatbot into an agent that can safely perform real actions.
+> 🏆 **Focus:** Grounded answers over real business data — read-only SQL, cited evidence, strict access control and a complete audit trail.
 
 ---
 
-## 📊 3. Employee Performance Tracker
+## 🚌 3. School Transport Management System
+
+### Multi-Tenant School Transport & Child-Safety Platform
+
+🔗 **Repository:** [github.com/rksingh-108/school-transport-platform](https://github.com/rksingh-108/school-transport-platform)
+
+A multi-tenant platform that helps Indian K-12 schools run bus transport safely — managing **fleet, drivers, attendants, routes and trips**, while giving parents **live GPS tracking**, boarding visibility and transport notifications. Safety events and AI camera observations are reviewed by a human before anything is acted on, and every school's data is isolated at the database level.
+
+### ✨ Highlights
+
+| Feature | What it does |
+|---|---|
+| 🚌 Fleet Management | Buses, bus devices, drivers & attendants |
+| 🗺️ Routes & Trips | Routes, route stops, trips & student manifests |
+| 🛰️ GPS Tracking | Live bus telemetry streamed over WebSockets |
+| ✅ Boarding | Trip boarding & attendance tracking |
+| 📍 Geofencing | Zones & operational safety rules |
+| 🆘 Emergencies | Safety events, emergency handling & notifications |
+| 👨‍👩‍👧 Parent App | Live tracking, boarding steps & transport alerts |
+| 📷 AI Safety | Camera observations with human-in-the-loop review |
+| 🏢 Multi-Tenancy | Tenant isolation via PostgreSQL **Row-Level Security** |
+| 🔐 Access Control | Separate staff & parent auth audiences + RBAC |
+
+### 🧩 Architecture
+
+```text
+🏫 School Console          📱 Parent App
+        └────────────┬────────────┘
+                     ▼
+        ⚙️ NestJS Modular Monolith API
+                     │
+        ┌────────────┼────────────┐
+        ▼            ▼            ▼
+  🗄️ PostgreSQL   ⚡ Redis   📦 MinIO (S3)
+    (+ RLS)      (realtime)   (objects)
+                     │
+                     ▼
+        🛰️ Live GPS · Trips · Safety Events
+```
+
+### 🧰 Stack
+
+`Next.js` `React` `TypeScript` `Tailwind CSS` `NestJS` `PostgreSQL` `Prisma` `Row-Level Security` `Redis` `MinIO / S3` `WebSockets` `Docker` `Azure`
+
+### ☁️ Deployment
+
+```text
+🎨 Web        → Next.js school console + parent app
+⚙️ API        → NestJS modular monolith
+🗄️ Data       → PostgreSQL + Prisma with Row-Level Security
+⚡ Realtime   → Redis · WebSockets
+📦 Storage    → MinIO / S3-compatible object storage
+🐳 Infra      → Docker Compose · Azure
+```
+
+> 🏆 **Focus:** Child safety at fleet scale — live visibility for parents, operational control for schools, and tenant isolation enforced in the database.
+
+---
+
+## 📊 4. Employee Performance Tracker
 
 ### Flask-Based Employee Analytics Application
 
